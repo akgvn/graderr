@@ -1,0 +1,24 @@
+- This file is a sample for recording the transcript locally.
+- I'll add JSON serialization/deserialization feature later and get rid of this file.
+
+----------
+
+- Comments start with "-"
+- Format: COURSECODE CREDIT LETTERGRADE
+
+- 2018 FALL Semester
+BIO101 3 AA
+CENG101 2 AA
+ESR101 1 AA
+MATH101 4 AA
+PHYS101 4 AA
+TURK101 2 AA
+ENG101 3 AA
+- 2019 SPRING Semester
+BIO102 3 AA
+CENG102 2 AA
+ESR102 1 AA
+MATH102 4 AA
+PHYS102 4 AA
+TURK102 2 AA
+ENG102 3 AA
