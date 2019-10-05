@@ -17,7 +17,13 @@ fn main() {
     }
 
     let courses = read_and_create();
-    println!("{:#?}", courses);
+    
+    // println!("{:#?}", courses); // Uncomment this after implementing Display trait for Vec<Class>
+
+    // Print the list of courses
+    for course in &courses {
+        println!("{}", course);
+    }
 
     let mut cum_gpa: f32 = 0.0f32;
     let mut credits: u32 = 0;
