@@ -1,3 +1,4 @@
+// TODO: Is this enum really needed?
 #[derive(Debug)]
 pub enum LetterGrade {
     AA,
@@ -36,12 +37,17 @@ impl Class {
 
 use std::fmt;
 
-// TODO Implement display trait for Vec<Class>
 impl fmt::Display for Class {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:>5} - {} - {}", self.code, self.credit, self.grade)
+        write!(f, "{:>8} - {} - {}", self.code, self.credit, self.grade)
     }
 }
+
+/* 
+NOTE Can't implement external trait for external types. (no Display for Vec<Class>!)
+Create a "Classes" type containing Vec<Class> called "Semester"
+Maybe a "Year" (or "Term"?) struct containing Vec<Semester>?
+*/
 
 fn get_letter_enum(letter_grade : &str) -> LetterGrade {
     match letter_grade {
