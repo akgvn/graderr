@@ -1,3 +1,3 @@
 # graderr
 
-A GPA Calculator I made to learn Rust.  
+Simple CLI app to calculate University GPA.

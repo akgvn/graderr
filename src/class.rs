@@ -18,7 +18,6 @@ pub struct Class {
     pub credit: u32,
     pub letter_grade: LetterGrade,
     pub grade: f32,
-    // grade_items: Vec<GradeItem>,
 }
 
 impl Class {
@@ -29,7 +28,7 @@ impl Class {
             code: code.to_string(),
             credit,
             letter_grade,
-            grade, // grade_items: Vec::new()
+            grade,
         }
     }
 }
@@ -39,22 +38,6 @@ use std::fmt;
 impl fmt::Display for Class {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:>8} - {} - {}", self.code, self.credit, self.grade)
-    }
-}
-
-pub struct Semester {
-    pub rank: u8,
-    pub classes: Vec<Class>,
-    pub cum_cred: f32,
-    pub gpa: f32,
-}
-
-impl fmt::Display for Semester {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for class in &self.classes {
-            write!(f, "{}\n", class);
-        }
-        write!(f, "--- Semester End --- GPA: {}", self.gpa)
     }
 }
 
@@ -85,24 +68,3 @@ fn enum_to_float(letter_grade: &LetterGrade) -> f32 {
         LetterGrade::FF => 0.0,
     }
 }
-
-/*
-
-#[derive(Debug)]
-struct GradeItem {
-    grade: u8,
-    out_of: u8,
-    percent: u8,
-}
-
-impl GradeItem {
-    fn new(grade: u8, out_of: u8, percent: u8) -> GradeItem {
-        GradeItem {
-            grade,
-            out_of,
-            percent
-        }
-    }
-}
-
-*/

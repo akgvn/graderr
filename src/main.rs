@@ -1,28 +1,24 @@
 mod class;
 
-use class::{Class, Semester};
+use class::Class;
 use std::fs::File;
 use std::io;
 use std::io::{prelude::*, BufReader};
+use std::env;
 
 fn main() {
-    println!("Welcome to Grade Calc r0.1");
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
 
-    let mut input = String::new();
+    println!("Welcome to Grade Calc!");
 
-    match io::stdin().read_line(&mut input) {
-        Ok(n) => println!("{} bytes: '{}'", n, input),
-        Err(error) => println!("error: {}", error),
-    }
-
-    let courses = read_and_create();
-
-    println!("{}", courses);
+    let courses = read_and_create(&args[1]);
 
     let mut cum_gpa: f32 = 0.0f32;
     let mut credits: u32 = 0;
 
-    for c in courses.classes {
+    for c in courses {
+        println!("{}", c);
         cum_gpa += c.grade * c.credit as f32;
         credits += c.credit;
     }
@@ -32,8 +28,8 @@ fn main() {
     println!("cumGPA = {}, Sum of Credits = {}", cum_gpa, credits)
 }
 
-fn read_and_create() -> Semester {
-    let f = File::open("grades.txt").expect("Grades couldn't be found.");
+fn read_and_create(path: &String) -> Vec<Class> {
+    let f = File::open(path).expect("Grades couldn't be found.");
 
     let f = BufReader::new(f);
 
@@ -41,14 +37,7 @@ fn read_and_create() -> Semester {
 
     reader(f, &mut data);
 
-    let semester: Semester = Semester {
-        rank: 0,
-        classes: data,
-        cum_cred: 0.,
-        gpa: 0.,
-    };
-
-    semester
+    data
 }
 
 fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
