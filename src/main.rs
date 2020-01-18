@@ -18,8 +18,13 @@ fn main() {
         println!("GPA = {}, Sum of Credits = {}", gpa, credits);
 
         if args.len() == 4 {
-            let goal = &args[3];
-            todo!()
+            // Formula is:
+            // credits * (gpa - goal) = goal_credits * (goal - goal_gpa)
+            let goal: f32 = args[3].parse().unwrap();
+            let left_hand_side = (credits as f32) * (gpa - goal);
+
+            // let (additional_credits, additional_grades) = todo!();
+            // println!("You need additional {} credits with grade of {}!", additional_credits, additional_grades);
         }
     }
 }
