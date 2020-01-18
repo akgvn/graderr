@@ -19,7 +19,7 @@
 - [ ] Save data to and read data from JSON files.
 - [ ] Build executables for distribution.
 
-## High-level features that'd be nice to have 
+## High-level features that'd be nice to have
 
 - a TUI or a GUI
     - termbox / ncurses for TUI (?)

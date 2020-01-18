@@ -29,8 +29,7 @@ impl Class {
             code: code.to_string(),
             credit,
             letter_grade,
-            grade
-            // grade_items: Vec::new()
+            grade, // grade_items: Vec::new()
         }
     }
 }
@@ -43,13 +42,23 @@ impl fmt::Display for Class {
     }
 }
 
-/* 
-NOTE Can't implement external trait for external types. (no Display for Vec<Class>!)
-Create a "Classes" type containing Vec<Class> called "Semester"
-Maybe a "Year" (or "Term"?) struct containing Vec<Semester>?
-*/
+pub struct Semester {
+    pub rank: u8,
+    pub classes: Vec<Class>,
+    pub cum_cred: f32,
+    pub gpa: f32,
+}
 
-fn get_letter_enum(letter_grade : &str) -> LetterGrade {
+impl fmt::Display for Semester {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for class in &self.classes {
+            write!(f, "{}\n", class);
+        }
+        write!(f, "--- Semester End --- GPA: {}", self.gpa)
+    }
+}
+
+fn get_letter_enum(letter_grade: &str) -> LetterGrade {
     match letter_grade {
         "AA" => LetterGrade::AA,
         "BA" => LetterGrade::BA,
@@ -59,11 +68,11 @@ fn get_letter_enum(letter_grade : &str) -> LetterGrade {
         "DC" => LetterGrade::DC,
         "DD" => LetterGrade::DD,
         "FD" => LetterGrade::FD,
-        _ => LetterGrade::FF
+        _ => LetterGrade::FF,
     }
 }
 
-fn enum_to_float(letter_grade : &LetterGrade) -> f32 {
+fn enum_to_float(letter_grade: &LetterGrade) -> f32 {
     match letter_grade {
         LetterGrade::AA => 4.0,
         LetterGrade::BA => 3.5,

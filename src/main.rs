@@ -1,12 +1,11 @@
 mod class;
 
-use class::Class;
+use class::{Class, Semester};
 use std::fs::File;
 use std::io;
 use std::io::{prelude::*, BufReader};
 
 fn main() {
-
     println!("Welcome to Grade Calc r0.1");
 
     let mut input = String::new();
@@ -17,17 +16,13 @@ fn main() {
     }
 
     let courses = read_and_create();
-    
-    // println!("{:#?}", courses); // Uncomment this after implementing Display trait for Vec<Class>
 
-    // Print the list of courses
-    for course in &courses {
-        println!("{}", course);
-    }
+    println!("{}", courses);
 
     let mut cum_gpa: f32 = 0.0f32;
     let mut credits: u32 = 0;
-    for c in courses {
+
+    for c in courses.classes {
         cum_gpa += c.grade * c.credit as f32;
         credits += c.credit;
     }
@@ -37,7 +32,7 @@ fn main() {
     println!("cumGPA = {}, Sum of Credits = {}", cum_gpa, credits)
 }
 
-fn read_and_create() -> Vec<Class> {
+fn read_and_create() -> Semester {
     let f = File::open("grades.txt").expect("Grades couldn't be found.");
 
     let f = BufReader::new(f);
@@ -46,11 +41,17 @@ fn read_and_create() -> Vec<Class> {
 
     reader(f, &mut data);
 
-    data
+    let semester: Semester = Semester {
+        rank: 0,
+        classes: data,
+        cum_cred: 0.,
+        gpa: 0.,
+    };
+
+    semester
 }
 
 fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
-    
     for line in f.lines() {
         let line_data = line.unwrap();
 
