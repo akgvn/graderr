@@ -18,13 +18,12 @@ fn main() {
         println!("GPA = {}, Sum of Credits = {}", gpa, credits);
 
         if args.len() == 4 {
-            // Formula is:
-            // credits * (gpa - goal) = goal_credits * (goal - goal_gpa)
-            let goal: f32 = args[3].parse().unwrap();
-            let left_hand_side = (credits as f32) * (gpa - goal);
-
-            // let (additional_credits, additional_grades) = todo!();
-            // println!("You need additional {} credits with grade of {}!", additional_credits, additional_grades);
+            let goal: f32 = args[3].parse().unwrap(); // Goal GPA
+            let (additional_credits, additional_grades) = goal_calc(goal, gpa, credits);
+            println!(
+                "You need additional {} credits with grade of {}!",
+                additional_credits, additional_grades
+            );
         }
     }
 }
@@ -43,7 +42,7 @@ fn read_and_create(path: &String) -> Vec<Class> {
 
 fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
     for line in f.lines() {
-        let line_data = line.unwrap();
+        let line_data = line.unwrap().trim().to_string();
 
         if line_data.starts_with("-") {
             // Comment line
@@ -55,11 +54,13 @@ fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
             class_data.push(item.to_string());
         }
 
-        data.push(Class::new(
-            &class_data[0],
-            class_data[1].parse().unwrap(),
-            &class_data[2],
-        ));
+        if class_data.len() >= 3 {
+            data.push(Class::new(
+                &class_data[0],
+                class_data[1].parse().unwrap(),
+                &class_data[2],
+            ));
+        }
     }
 }
 
@@ -75,4 +76,17 @@ fn calc_and_print_classes(classes: &Vec<Class>) -> (f32, u32) {
     gpa /= credits as f32;
 
     (gpa, credits)
+}
+
+fn goal_calc(goal: f32, gpa: f32, tot_creds: u32) -> (u32, f32) {
+    // Formula:
+    // gpa * tot_creds = ac * (goal*tot_creds - ag)
+    let ac: u32; // additional credits can be 3 or 4
+    let ag: f32; // additional grades can be [0, 0.5, 1, ..., 3, 3.5, 4] (from FF to AA)
+
+    let left_hand_side = gpa * tot_creds as f32;
+    let right_hand_constant = goal * tot_creds as f32;
+
+    todo!();
+    (ac, ag)
 }
