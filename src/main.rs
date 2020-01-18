@@ -1,31 +1,27 @@
 mod class;
 
 use class::Class;
-use std::fs::File;
-use std::io;
-use std::io::{prelude::*, BufReader};
 use std::env;
+use std::fs::File;
+use std::io::{prelude::*, BufReader};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
 
-    println!("Welcome to Grade Calc!");
+    if args.len() < 2 {
+        println!("Please specify the text file!");
+        return;
+    } else {
+        let courses = read_and_create(&args[1]);
+        let (gpa, credits) = calc_and_print_classes(&courses);
+        println!("GPA = {}, Sum of Credits = {}", gpa, credits);
 
-    let courses = read_and_create(&args[1]);
-
-    let mut cum_gpa: f32 = 0.0f32;
-    let mut credits: u32 = 0;
-
-    for c in courses {
-        println!("{}", c);
-        cum_gpa += c.grade * c.credit as f32;
-        credits += c.credit;
+        if args.len() == 4 {
+            let goal = &args[3];
+            todo!()
+        }
     }
-
-    cum_gpa /= credits as f32;
-
-    println!("cumGPA = {}, Sum of Credits = {}", cum_gpa, credits)
 }
 
 fn read_and_create(path: &String) -> Vec<Class> {
@@ -60,4 +56,18 @@ fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
             &class_data[2],
         ));
     }
+}
+
+fn calc_and_print_classes(classes: &Vec<Class>) -> (f32, u32) {
+    let mut gpa: f32 = 0.0f32;
+    let mut credits: u32 = 0;
+
+    for c in classes {
+        println!("{}", c);
+        gpa += c.grade * c.credit as f32;
+        credits += c.credit;
+    }
+    gpa /= credits as f32;
+
+    (gpa, credits)
 }
