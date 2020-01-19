@@ -55,11 +55,20 @@ fn reader(f: BufReader<File>, data: &mut Vec<Class>) {
         }
 
         if class_data.len() >= 3 {
-            data.push(Class::new(
-                &class_data[0],
-                class_data[1].parse().unwrap(),
-                &class_data[2],
-            ));
+            if class_data[2].contains(".") {
+                // No letter grade
+                data.push(Class::new_with_float_grade(
+                    &class_data[0],
+                    class_data[1].parse().unwrap(),
+                    class_data[2].parse().unwrap(),
+                ));
+            } else {
+                data.push(Class::new(
+                    &class_data[0],
+                    class_data[1].parse().unwrap(),
+                    &class_data[2],
+                ));
+            }
         }
     }
 }

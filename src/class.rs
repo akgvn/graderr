@@ -10,6 +10,7 @@ pub enum LetterGrade {
     DD,
     FD,
     FF,
+    Unknown
 }
 
 #[derive(Debug)]
@@ -28,6 +29,15 @@ impl Class {
             code: code.to_string(),
             credit,
             letter_grade,
+            grade,
+        }
+    }
+
+    pub fn new_with_float_grade(code: &str, credit: u32, grade: f32) -> Class {
+        Class {
+            code: code.to_string(),
+            credit,
+            letter_grade: LetterGrade::Unknown,
             grade,
         }
     }
@@ -65,6 +75,6 @@ fn enum_to_float(letter_grade: &LetterGrade) -> f32 {
         LetterGrade::DC => 1.5,
         LetterGrade::DD => 1.0,
         LetterGrade::FD => 0.5,
-        LetterGrade::FF => 0.0,
+        LetterGrade::FF | LetterGrade::Unknown => 0.0,
     }
 }
